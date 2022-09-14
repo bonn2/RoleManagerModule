@@ -1,0 +1,7 @@
+{
+  "main": "net.bonn2.rolemanager.Main",
+  "name": "RoleManager",
+  "author": "bonn2",
+  "description": "Allows users to be able to select roles themselves.",
+  "version": "1.0"
+}
