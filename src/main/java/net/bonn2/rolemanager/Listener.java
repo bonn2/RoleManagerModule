@@ -126,7 +126,7 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onSelectMenuInteraction(@Nonnull SelectMenuInteractionEvent event) {
-        if (!event.getComponentId().equals("rolemenu")) return;
+        if (!event.getComponentId().equals("rolemenu") && !event.getComponentId().equals("roleselect")) return;
         event.deferReply(true).queue();
         Member member = event.getMember();
         assert member != null;
