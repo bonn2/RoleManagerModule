@@ -4,20 +4,22 @@ import net.bonn2.Bot;
 import net.bonn2.modules.Module;
 import net.bonn2.modules.settings.Settings;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.events.interaction.component.SelectMenuInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.interactions.components.selections.SelectOption;
+import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +59,7 @@ public class Listener extends ListenerAdapter {
                 embedBuilder.setColor(Color.CYAN);
 
                 // Create selection menu
-                SelectMenu.Builder selectionBuilder = SelectMenu.create("rolemenu")
+                StringSelectMenu.Builder selectionBuilder = StringSelectMenu.create("rolemenu")
                         .setMinValues((int) event.getOption("min_selection").getAsLong())
                         .setMaxValues(
                                 event.getOption("max_selection").getAsLong() > 25 ?
@@ -126,7 +128,7 @@ public class Listener extends ListenerAdapter {
     }
 
     @Override
-    public void onSelectMenuInteraction(@Nonnull SelectMenuInteractionEvent event) {
+    public void onStringSelectInteraction(@NotNull StringSelectInteractionEvent event) {
         if (!event.getComponentId().equals("rolemenu") && !event.getComponentId().equals("roleselect")) return;
         event.deferReply(true).queue();
         Member member = event.getMember();
@@ -163,7 +165,7 @@ public class Listener extends ListenerAdapter {
     }
 
     @Override
-    public void onGuildMemberJoin(@Nonnull GuildMemberJoinEvent event) {
+    public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
         List<Role> roles = Settings.get(module, event.getGuild().getId(), "default_roles").getAsRoleList(event.getGuild());
         for (Role role : roles) {
             event.getGuild().addRoleToMember(event.getMember(), role).queue();
