@@ -3,4 +3,16 @@
   "extends": [
     "config:base"
   ]
+  "packageRules": [
+    {
+      "extends": ["gradle/gradle-build-action"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true
+    },
+    {
+      "extends": ["actions/upload-artifact"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true
+    }
+  ]
 }
