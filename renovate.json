@@ -5,12 +5,12 @@
   ],
   "packageRules": [
     {
-      "extends": ["gradle/gradle-build-action"],
+      "extends": ["gradle:gradle-build-action"],
       "matchUpdateTypes": ["patch", "minor"],
       "automerge": true
     },
     {
-      "extends": ["actions/upload-artifact"],
+      "extends": ["actions:upload-artifact"],
       "matchUpdateTypes": ["patch", "minor"],
       "automerge": true
     }
