@@ -188,7 +188,34 @@ public class Main extends Module {
                                 "The twentieth role.",
                                 false
                         )
-                ).setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.MANAGE_ROLES))
+                ).setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash(
+                        "rolerule",
+                        "Set role rules."
+                ).addSubcommands(
+                        new SubcommandData(
+                                "add",
+                                "Add a role rule"
+                        ).addOption(
+                                OptionType.STRING,
+                                "type",
+                                "The type of role rule",
+                                true
+                        ),
+                        new SubcommandData(
+                                "remove",
+                                "Remove a role rule"
+                        ).addOption(
+                                OptionType.INTEGER,
+                                "id",
+                                "The id of the role rule",
+                                true
+                        ),
+                        new SubcommandData(
+                                "list",
+                                "List all role rules on the server"
+                        )
+                ).setDefaultPermissions(DefaultMemberPermissions.DISABLED)
         };
     }
 }
