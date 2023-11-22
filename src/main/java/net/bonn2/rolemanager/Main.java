@@ -28,7 +28,7 @@ public class Main extends Module {
     public CommandData[] getCommands() {
         return new CommandData[] {
                 Commands.slash(
-                        "rolemenu",
+                        "roles",
                         "Root command for RoleManager."
                 ).addSubcommands(
                         new SubcommandData(

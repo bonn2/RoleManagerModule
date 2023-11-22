@@ -38,7 +38,7 @@ public class Listener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (!event.getName().equals("rolemenu")) return;
+        if (!event.getName().equals("roles")) return;
 
         switch (Objects.requireNonNull(event.getSubcommandName())) {
             case "new" -> {
