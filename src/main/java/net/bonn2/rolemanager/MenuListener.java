@@ -27,12 +27,12 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Listener extends ListenerAdapter {
+public class MenuListener extends ListenerAdapter {
 
     private static final int max_selections = 25;
     private final Module module;
 
-    public Listener(Module module) {
+    public MenuListener(Module module) {
         this.module = module;
     }
 

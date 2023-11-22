@@ -21,7 +21,7 @@ public class Main extends Module {
 
     @Override
     public void load() {
-        Bot.jda.addEventListener(new Listener(this));
+        Bot.jda.addEventListener(new MenuListener(this));
     }
 
     @Override
