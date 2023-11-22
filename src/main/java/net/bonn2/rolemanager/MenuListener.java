@@ -38,7 +38,7 @@ public class MenuListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if (!event.getName().equals("roles")) return;
+        if (!event.getName().equals("rolemenu")) return;
 
         switch (Objects.requireNonNull(event.getSubcommandName())) {
             case "new" -> {
