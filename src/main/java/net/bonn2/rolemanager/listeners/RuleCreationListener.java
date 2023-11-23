@@ -60,6 +60,7 @@ public class RuleCreationListener extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if (!event.getName().equals("rolerule")) return;
+        if (!event.getSubcommandName().equals("add")) return;
 
         switch (Objects.requireNonNull(event.getOption("type")).getAsString()) {
             case "remove-if-has" -> {

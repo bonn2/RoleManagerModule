@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GuildRules {
 
@@ -33,11 +34,13 @@ public class GuildRules {
      * @param guild The guild to remove
      * @param id    The id of the rule to remove
      */
-    public static void removeRule(Guild guild, int id) {
+    public static boolean removeRule(Guild guild, int id) {
         List<Rule> guildRules = getRules(guild);
+        if (id >= guildRules.size() || id < 0) return false;
         guildRules.remove(id);
         guildRulesMap.put(guild, guildRules);
         save(guild);
+        return true;
     }
 
     /**
@@ -95,6 +98,7 @@ public class GuildRules {
      */
     public static void load() {
         guildRulesMap = new HashMap<>(Bot.jda.getGuilds().size());
+        AtomicInteger count = new AtomicInteger();
         try {
             if (rulesFolder.mkdirs()) return;
             for (String filename : Objects.requireNonNull(rulesFolder.list())) {
@@ -109,7 +113,10 @@ public class GuildRules {
                     List<Rule> rules = new ArrayList<>(jsonArray.size());
                     jsonArray.forEach(jsonElement -> {
                         Rule rule = Rule.deserialize(jsonElement.getAsJsonObject());
-                        if (rule != null) rules.add(rule);
+                        if (rule != null) {
+                            rules.add(rule);
+                            count.getAndIncrement();
+                        }
                     });
                     if (!rules.isEmpty()) guildRulesMap.put(guild, rules);
                 }
@@ -118,5 +125,6 @@ public class GuildRules {
             Bot.logger.error("Failed to load role rules from file!");
             Bot.logger.error(Arrays.toString(e.getStackTrace()));
         }
+        Bot.logger.info("Loaded " + count + " rules!");
     }
 }
