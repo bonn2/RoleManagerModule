@@ -28,6 +28,7 @@ public class RemoveIfHas implements Rule {
 
     @Override
     public void evaluate(@NotNull Member member) {
+        if (member.getUser().isBot()) return;
         for (Role role2 : group2) {
             if (member.getRoles().contains(role2)) {
                 for (Role role1 : group1) {
