@@ -14,7 +14,7 @@ import java.util.*;
 
 public class GuildRules {
 
-    protected static Map<Guild, List<Rule>> guildRulesMap;
+    protected static Map<Guild, List<Rule>> guildRulesMap = new HashMap<>();
 
     /**
      * Add a rule to a guild
