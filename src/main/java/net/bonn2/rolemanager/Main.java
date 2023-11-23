@@ -223,6 +223,10 @@ public class Main extends Module {
                         new SubcommandData(
                                 "list",
                                 "List all role rules on the server"
+                        ),
+                        new SubcommandData(
+                                "force-apply",
+                                "Applies all rules to all members of the server"
                         )
                 ).setDefaultPermissions(DefaultMemberPermissions.DISABLED)
         };

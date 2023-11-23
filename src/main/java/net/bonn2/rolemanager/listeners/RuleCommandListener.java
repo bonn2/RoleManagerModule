@@ -2,11 +2,13 @@ package net.bonn2.rolemanager.listeners;
 
 import net.bonn2.rolemanager.rules.GuildRules;
 import net.bonn2.rolemanager.rules.Rule;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class RuleCommandListener extends ListenerAdapter {
 
@@ -29,6 +31,21 @@ public class RuleCommandListener extends ListenerAdapter {
                 } else {
                     event.reply("Failed!").queue();
                 }
+            }
+            case "force-apply" -> {
+                event.getGuild().loadMembers().onSuccess(members -> {
+                    for (Member member : members) {
+                        for (Rule rule : GuildRules.getRules(event.getGuild())) {
+                            rule.evaluate(member);
+                        }
+                        try {
+                            TimeUnit.SECONDS.sleep(1);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+                event.reply("Applying rules to members, this will take approximately " + event.getGuild().getMemberCount() + " seconds...").queue();
             }
         }
     }
