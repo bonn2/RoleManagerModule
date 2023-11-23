@@ -22,6 +22,7 @@ public class RuleCommandListener extends ListenerAdapter {
                 int count = 0;
                 for (Rule rule : GuildRules.getRules(event.getGuild())) {
                     message.append(count).append(": ").append(rule.serialize().toString()).append("\n");
+                    count++;
                 }
                 event.reply(message.toString()).queue();
             }
