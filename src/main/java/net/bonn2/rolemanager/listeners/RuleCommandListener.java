@@ -44,6 +44,7 @@ public class RuleCommandListener extends ListenerAdapter {
                             throw new RuntimeException(e);
                         }
                     }
+                    event.getHook().editOriginal("~~" + event.getHook().retrieveOriginal().complete().getContentRaw() + "~~\nCompleted!").queue();
                 });
                 event.reply("Applying rules to members, this will take approximately " + event.getGuild().getMemberCount() + " seconds...").queue();
             }
