@@ -3,6 +3,7 @@ package net.bonn2.rolemanager.rules;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import net.bonn2.rolemanager.listeners.RuleEnforcementListener;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -30,7 +31,9 @@ public class RemoveIfHas implements Rule {
         for (Role role2 : group2) {
             if (member.getRoles().contains(role2)) {
                 for (Role role1 : group1) {
-                    member.getGuild().removeRoleFromMember(member, role1).queue();
+                    RuleEnforcementListener.modifiedMembers.add(member);
+                    member.getGuild().removeRoleFromMember(member, role1).complete();
+                    RuleEnforcementListener.modifiedMembers.remove(member);
                 }
                 return;
             }

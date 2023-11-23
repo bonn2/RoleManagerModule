@@ -5,6 +5,7 @@ import net.bonn2.modules.Module;
 import net.bonn2.rolemanager.listeners.MenuListener;
 import net.bonn2.rolemanager.listeners.RuleCommandListener;
 import net.bonn2.rolemanager.listeners.RuleCreationListener;
+import net.bonn2.rolemanager.listeners.RuleEnforcementListener;
 import net.bonn2.rolemanager.rules.GuildRules;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -27,6 +28,7 @@ public class Main extends Module {
         Bot.jda.addEventListener(new MenuListener(this));
         Bot.jda.addEventListener(new RuleCreationListener());
         Bot.jda.addEventListener(new RuleCommandListener());
+        Bot.jda.addEventListener(new RuleEnforcementListener());
         GuildRules.load();
     }
 
