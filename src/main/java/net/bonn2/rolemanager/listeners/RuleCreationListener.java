@@ -32,8 +32,8 @@ public class RuleCreationListener extends ListenerAdapter {
             this.channel = channel;
         }
 
-        public List<Role> group1;
-        public List<Role> group2;
+        public List<Role> group1 = new ArrayList<>();
+        public List<Role> group2 = new ArrayList<>();
 
         public Stage getStage() {
             // Neither group is set
