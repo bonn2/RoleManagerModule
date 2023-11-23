@@ -3,6 +3,7 @@ package net.bonn2.rolemanager;
 import net.bonn2.Bot;
 import net.bonn2.modules.Module;
 import net.bonn2.rolemanager.listeners.MenuListener;
+import net.bonn2.rolemanager.listeners.RuleCreationListener;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -22,6 +23,7 @@ public class Main extends Module {
     @Override
     public void load() {
         Bot.jda.addEventListener(new MenuListener(this));
+        Bot.jda.addEventListener(new RuleCreationListener());
     }
 
     @Override
