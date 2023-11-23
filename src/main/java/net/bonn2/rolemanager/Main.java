@@ -202,6 +202,7 @@ public class Main extends Module {
                                 OptionType.STRING,
                                 "type",
                                 "The type of role rule",
+                                true,
                                 true
                         ),
                         new SubcommandData(
