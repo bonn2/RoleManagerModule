@@ -97,8 +97,8 @@ public class RuleCreationListener extends ListenerAdapter {
                         }
                         state.group2 = roles;
                         GuildRules.addRule(event.getGuild(), new RemoveIfHas(event.getGuild(), state.group1, state.group2));
+                        state.channel.sendMessage("Done").complete();
                         activeStates.remove(event.getMember());
-                        state.channel.sendMessage("Done").queue();
                     }
                 }
             }
@@ -119,7 +119,7 @@ public class RuleCreationListener extends ListenerAdapter {
 
         List<Role> roles = new ArrayList<>();
         while (matcher.find()) {
-            roles.add(message.getGuild().getRoleById(matcher.group()));
+            roles.add(message.getGuild().getRoleById(matcher.group().replaceAll("<@&", "").replaceAll(">", "")));
         }
 
         return roles;
