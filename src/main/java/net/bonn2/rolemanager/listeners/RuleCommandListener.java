@@ -34,6 +34,7 @@ public class RuleCommandListener extends ListenerAdapter {
                 }
             }
             case "force-apply" -> {
+                event.reply("Applying rules to members, this will take approximately " + event.getGuild().getMemberCount() + " seconds...").complete();
                 event.getGuild().loadMembers().onSuccess(members -> {
                     for (Member member : members) {
                         for (Rule rule : GuildRules.getRules(event.getGuild())) {
@@ -47,7 +48,6 @@ public class RuleCommandListener extends ListenerAdapter {
                     }
                     event.getHook().editOriginal("~~" + event.getHook().retrieveOriginal().complete().getContentRaw() + "~~\nCompleted!").queue();
                 });
-                event.reply("Applying rules to members, this will take approximately " + event.getGuild().getMemberCount() + " seconds...").queue();
             }
         }
     }
