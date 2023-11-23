@@ -25,6 +25,7 @@ public class GuildRules {
         List<Rule> guildRules = getRules(guild);
         guildRules.add(rule);
         guildRulesMap.put(guild, guildRules);
+        save(guild);
     }
 
     /**
@@ -36,6 +37,7 @@ public class GuildRules {
         List<Rule> guildRules = getRules(guild);
         guildRules.remove(id);
         guildRulesMap.put(guild, guildRules);
+        save(guild);
     }
 
     /**
