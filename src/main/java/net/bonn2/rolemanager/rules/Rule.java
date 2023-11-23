@@ -54,8 +54,26 @@ public interface Rule {
                 // All vars should be valid at this point, return a new Rule object
                 return new RemoveIfHas(guild, group1, group2);
             }
-            case "other-rule" -> {
-                // Placeholder
+            case "add-if-doesnt-have" -> {
+                // Get guild, return null on fail
+                Guild guild = Bot.jda.getGuildById(jsonObject.get("guild").getAsString());
+                if (guild == null) return null;
+                // Get group1, return null if empty
+                List<Role> group1 = new ArrayList<>(jsonObject.get("group1").getAsJsonArray().size());
+                jsonObject.get("group1").getAsJsonArray().forEach(jsonElement -> {
+                    Role role = guild.getRoleById(jsonElement.getAsString());
+                    if (role != null) group1.add(role);
+                });
+                if (group1.isEmpty()) return null;
+                // Get group2, return null if empty
+                List<Role> group2 = new ArrayList<>(jsonObject.get("group2").getAsJsonArray().size());
+                jsonObject.get("group2").getAsJsonArray().forEach(jsonElement -> {
+                    Role role = guild.getRoleById(jsonElement.getAsString());
+                    if (role != null) group2.add(role);
+                });
+                if (group2.isEmpty()) return null;
+                // All vars should be valid at this point, return a new Rule object
+                return new AddIfDoesntHave(guild, group1, group2);
             }
         }
         return null;

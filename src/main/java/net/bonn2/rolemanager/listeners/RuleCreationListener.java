@@ -1,5 +1,6 @@
 package net.bonn2.rolemanager.listeners;
 
+import net.bonn2.rolemanager.rules.AddIfDoesntHave;
 import net.bonn2.rolemanager.rules.GuildRules;
 import net.bonn2.rolemanager.rules.RemoveIfHas;
 import net.dv8tion.jda.api.entities.Member;
@@ -10,6 +11,7 @@ import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInterac
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.Command;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -51,9 +53,15 @@ public class RuleCreationListener extends ListenerAdapter {
 
     public void onCommandAutoCompleteInteraction(@NotNull CommandAutoCompleteInteractionEvent event) {
         if (!event.getName().equals("rolerule")) return;
-        event.replyChoice(
-                "remove-if-has",
-                "remove-if-has"
+        event.replyChoices(
+                new Command.Choice(
+                        "remove-if-has",
+                        "remove-if-has"
+                ),
+                new Command.Choice(
+                        "add-if-doesnt-have",
+                        "add-if-doesnt-have"
+                )
         ).queue();
     }
 
@@ -66,6 +74,10 @@ public class RuleCreationListener extends ListenerAdapter {
             case "remove-if-has" -> {
                 activeStates.put(event.getMember(), new RuleCreationSequence("remove-if-has", event.getChannel().asTextChannel()));
                 event.reply("Please send a message pinging every role you want to remove when a user has a different role.").queue();
+            }
+            case "add-if-doesnt-have" -> {
+                activeStates.put(event.getMember(), new RuleCreationSequence("add-if-doesnt-have", event.getChannel().asTextChannel()));
+                event.reply("Please send a message pinging every role you want to add if a user doesn't have a different role.").queue();
             }
         }
     }
@@ -98,6 +110,31 @@ public class RuleCreationListener extends ListenerAdapter {
                         }
                         state.group2 = roles;
                         GuildRules.addRule(event.getGuild(), new RemoveIfHas(event.getGuild(), state.group1, state.group2));
+                        state.channel.sendMessage("Done").complete();
+                        activeStates.remove(event.getMember());
+                    }
+                }
+            }
+            case "add-if-doesnt-have" -> {
+                switch (state.getStage()) {
+                    case GROUP_1 -> {
+                        List<Role> roles = getRolesFromMessage(event.getMessage());
+                        if (roles.isEmpty()) {
+                            state.channel.sendMessage("Please ping the roles you wish to use").queue();
+                            return;
+                        }
+                        state.group1 = roles;
+                        activeStates.put(event.getMember(), state);
+                        state.channel.sendMessage("Please send a message pinging every role you want to check for in order to add the first role. (Exclusive)").queue();
+                    }
+                    case GROUP_2 -> {
+                        List<Role> roles = getRolesFromMessage(event.getMessage());
+                        if (roles.isEmpty()) {
+                            state.channel.sendMessage("Please ping the roles you wish to use").queue();
+                            return;
+                        }
+                        state.group2 = roles;
+                        GuildRules.addRule(event.getGuild(), new AddIfDoesntHave(event.getGuild(), state.group1, state.group2));
                         state.channel.sendMessage("Done").complete();
                         activeStates.remove(event.getMember());
                     }
