@@ -1,4 +1,4 @@
-package net.bonn2.rolemanager;
+package net.bonn2.rolemanager.listeners;
 
 import net.bonn2.Bot;
 import net.bonn2.modules.Module;

@@ -2,7 +2,7 @@ package net.bonn2.rolemanager;
 
 import net.bonn2.Bot;
 import net.bonn2.modules.Module;
-import net.dv8tion.jda.api.Permission;
+import net.bonn2.rolemanager.listeners.MenuListener;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
