@@ -1,6 +1,5 @@
 package net.bonn2.rolemanager.listeners;
 
-import net.bonn2.Bot;
 import net.bonn2.rolemanager.rules.GuildRules;
 import net.bonn2.rolemanager.rules.Rule;
 import net.dv8tion.jda.api.entities.Member;
